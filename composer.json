@@ -1,15 +1,32 @@
 {
     "name": "optilarity/optilarity-sdk",
-    "autoload": {
-        "psr-4": {
-            "Optilarity\\Sdk\\": "src/"
-        }
-    },
+    "description": "Official PHP SDK for the Optilarity API (License, Membership, Templates)",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "optilarity",
+        "sdk",
+        "license",
+        "membership",
+        "api"
+    ],
     "authors": [
         {
             "name": "Puleeno Nguyen",
             "email": "puleeno@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Optilarity\\Sdk\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
