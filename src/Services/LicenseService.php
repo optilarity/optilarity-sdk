@@ -58,6 +58,26 @@ class LicenseService
         return $this->client->get('api/theme/latest');
     }
 
+    /**
+     * Get activation logs for a license key.
+     */
+    public function logs(string $licenseKey = '', int $limit = 20): array
+    {
+        $params = ['limit' => $limit];
+        if ($licenseKey) {
+            $params['license_key'] = $licenseKey;
+        }
+        return $this->client->get('api/licenses/logs', $params);
+    }
+
+    /**
+     * Get license usage statistics.
+     */
+    public function stats(): array
+    {
+        return $this->client->get('api/licenses/stats');
+    }
+
     // ─────────────────────────────────────────────────────────────
 
     protected function currentDomain(): string
