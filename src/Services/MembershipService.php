@@ -80,7 +80,7 @@ class MembershipService
      */
     public function plan(string $accessToken): array
     {
-        return $this->client->withToken($accessToken)->get('api/membership/plan');
+        return $this->client->withToken($accessToken)->get('api/me/membership');
     }
 
     /**

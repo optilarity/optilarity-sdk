@@ -16,30 +16,37 @@ class TemplateService
     public function __construct(protected ClientInterface $client) {}
 
     /**
-     * List available templates, optionally filtered by category.
+     * List available items in the software catalog.
      */
-    public function list(string $category = '', int $page = 1, int $perPage = 20): array
+    public function list(string $type = 'themes', int $page = 1, int $perPage = 20): array
     {
-        $params = ['page' => $page, 'per_page' => $perPage];
-        if ($category) {
-            $params['category'] = $category;
-        }
-        return $this->client->get('api/templates', $params);
+        $endpoint = match ($type) {
+            'themes'  => 'api/catalog/themes',
+            'plugins' => 'api/catalog/plugins',
+            default   => 'api/catalog',
+        };
+
+        return $this->client->get($endpoint, [
+            'page'     => $page,
+            'per_page' => $perPage
+        ]);
     }
 
     /**
-     * Get a single template's metadata.
+     * Get a single catalog item's metadata.
      */
-    public function get(string $templateId): array
+    public function get(string $itemId): array
     {
-        return $this->client->get("api/templates/{$templateId}");
+        return $this->client->get("api/catalog/{$itemId}");
     }
 
     /**
-     * Download a template (requires membership token).
+     * Securely download a catalog asset.
      */
-    public function download(string $accessToken, string $templateId): array
+    public function download(string $accessToken, string $itemId): array
     {
-        return $this->client->withToken($accessToken)->get("api/templates/{$templateId}/download");
+        // On the modular backend, downloads are channeled through this endpoint
+        return $this->client->withToken($accessToken)
+            ->get("api/catalog/{$itemId}/download");
     }
 }

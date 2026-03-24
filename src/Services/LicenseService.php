@@ -17,11 +17,11 @@ class LicenseService
     public function __construct(protected ClientInterface $client) {}
 
     /**
-     * Activate a license key for the current domain.
+     * Activate/Verify a license key for the current domain.
      */
     public function activate(string $licenseKey, string $email, string $domain = ''): array
     {
-        return $this->client->post('api/license/activate', [
+        return $this->client->post('api/license/verify', [
             'license_key' => $licenseKey,
             'email'       => $email,
             'domain'      => $domain ?: $this->currentDomain(),
@@ -42,19 +42,20 @@ class LicenseService
     /**
      * Ping/heartbeat – verifies the stored token is still valid.
      */
-    public function ping(string $token): array
+    public function ping(string $licenseKey): array
     {
-        return $this->client->withToken($token)->get('api/license/ping');
+        return $this->client->post('api/theme/ping', [
+            'license_key' => $licenseKey,
+            'domain'      => $this->currentDomain(),
+        ]);
     }
 
     /**
      * Check for available product updates.
      */
-    public function checkUpdates(string $token, string $currentVersion): array
+    public function checkUpdates(): array
     {
-        return $this->client->withToken($token)->get('api/license/updates', [
-            'version' => $currentVersion,
-        ]);
+        return $this->client->get('api/theme/latest');
     }
 
     // ─────────────────────────────────────────────────────────────
