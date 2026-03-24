@@ -1,0 +1,15 @@
+{
+    "name": "optilarity/optilarity-sdk",
+    "autoload": {
+        "psr-4": {
+            "Optilarity\\Sdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Puleeno Nguyen",
+            "email": "puleeno@gmail.com"
+        }
+    ],
+    "require": {}
+}
